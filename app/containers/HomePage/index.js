@@ -13,7 +13,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Entries from '../Entries/index';
 import messages from './messages';
-import preload from '../../data.json';
+// import preload from '../../data.json';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class HomePage extends React.PureComponent {
@@ -23,7 +23,7 @@ export default class HomePage extends React.PureComponent {
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
-        <Entries entries={preload.entries} />
+        <Entries />
       </div>
     );
   }
