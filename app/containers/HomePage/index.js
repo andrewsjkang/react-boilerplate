@@ -11,8 +11,9 @@
 
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Entries from '../Entries/index';
 import messages from './messages';
+import TodoList from '../TodoList/index';
+import CreateTodo from '../CreateTodo/index';
 // import preload from '../../data.json';
 
 /* eslint-disable react/prefer-stateless-function */
@@ -23,7 +24,8 @@ export default class HomePage extends React.PureComponent {
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
-        <Entries />
+        <CreateTodo />
+        <TodoList />
       </div>
     );
   }

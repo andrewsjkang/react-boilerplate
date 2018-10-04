@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const prettierOptions = JSON.parse(fs.readFileSync('./.prettierrc', 'utf8'));
+//const prettierOptions = JSON.parse(fs.readFileSync('./.prettierrc', 'utf8'));
 
 module.exports = {
   parser: 'babel-eslint',
@@ -20,7 +20,17 @@ module.exports = {
     },
   },
   rules: {
-    'prettier/prettier': ['error', prettierOptions],
+    'prettier/prettier': [
+      'error',
+      {
+        printWidth: 80,
+        tabWidth: 2,
+        useTabs: false,
+        semi: true,
+        singleQuote: true,
+        trailingComma: 'all',
+      },
+    ],
     'arrow-body-style': [2, 'as-needed'],
     'class-methods-use-this': 0,
     'comma-dangle': [2, 'always-multiline'],

@@ -4,29 +4,29 @@ import { compose } from 'redux';
 import { array } from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectEntries } from './selectors';
+import { makeSelectTodoList } from './selectors';
 import reducer from './reducer';
-import EntryCard from '../../components/EntryCard/index';
+import TodoItem from '../../components/TodoItem/index';
 
-const Entries = props => (
+const TodoList = props => (
   <div>
-    <h1>Entries</h1>
-    {props.entries.map(entry => <EntryCard key={entry.id} entry={entry} />)}
+    <h1>Todo List</h1>
+    {props.todos.map(todo => <TodoItem key={todo.id} todo={todo} />)}
   </div>
 );
 
-Entries.propTypes = {
-  entries: array,
+TodoList.propTypes = {
+  todos: array,
 };
 
 const mapStateToProps = createStructuredSelector({
-  entries: makeSelectEntries(),
+  todos: makeSelectTodoList(),
 });
 
 const withConnect = connect(mapStateToProps);
-const withReducer = injectReducer({ key: 'entries', reducer });
+const withReducer = injectReducer({ key: 'todolist', reducer });
 
 export default compose(
   withReducer,
   withConnect,
-)(Entries);
+)(TodoList);
