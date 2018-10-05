@@ -1,59 +1,53 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { array, func } from 'prop-types';
+import { array, func, bool } from 'prop-types';
 import { createStructuredSelector } from 'reselect';
-import 'whatwg-fetch';
 
 import injectReducer from 'utils/injectReducer';
-import { makeSelectTodoList } from './selectors';
-import { updateTodoList } from './actions';
+import injectSaga from 'utils/injectSaga';
+import { makeSelectTodoList, makeSelectLoading } from './selectors';
+import { loadTodos } from './actions';
 import reducer from './reducer';
+import saga from './saga';
 import TodoItem from '../../components/TodoItem/index';
+import Spinner from '../../components/Spinner/index';
+import List from './style/List';
 
-class TodoList extends React.PureComponent {
+export class TodoList extends React.PureComponent {
   componentDidMount() {
-    this.getList();
+    this.props.loadTodoState();
   }
 
-  getList() {
-    fetch('/todolist', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(res => res.json())
-      .then(response => {
-        this.props.updateTodoState(response);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+  isLoading() {
+    if (this.props.loading) return <Spinner />;
+    return this.props.todos.map(todo => <TodoItem key={todo.id} todo={todo} />);
   }
 
   render() {
     return (
-      <div>
+      <List>
         <h1>Todo List</h1>
-        {this.props.todos.map(todo => <TodoItem key={todo.id} todo={todo} />)}
-      </div>
+        {this.isLoading()}
+      </List>
     );
   }
 }
 
 TodoList.propTypes = {
+  loading: bool,
   todos: array,
-  updateTodoState: func,
+  loadTodoState: func,
 };
 
 const mapStateToProps = createStructuredSelector({
+  loading: makeSelectLoading(),
   todos: makeSelectTodoList(),
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateTodoState(newList) {
-    dispatch(updateTodoList(newList));
+  loadTodoState() {
+    dispatch(loadTodos());
   },
 });
 
@@ -62,8 +56,10 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 const withReducer = injectReducer({ key: 'todolist', reducer });
+const withSaga = injectSaga({ key: 'todolist', saga });
 
 export default compose(
   withReducer,
+  withSaga,
   withConnect,
 )(TodoList);

@@ -1,22 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-/* eslint-disable react/prefer-stateless-function */
+import { HeaderStyle, HeaderButtons } from './style/index';
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
-class Header extends React.PureComponent {
-  render() {
-    return (
-      <div>
-        <Link to="/">
-          <h1>Todo List</h1>
-        </Link>
-        <div>
-          <Link to="/">My Todo List</Link>
-          <Link to="/create">Create Todo</Link>
-        </div>
-      </div>
-    );
-  }
-}
+const Header = () => (
+  <HeaderStyle>
+    <Link to="/">
+      <h1>Todo List</h1>
+    </Link>
+    <div>
+      <Link to="/">
+        <HeaderButtons>My Todo List</HeaderButtons>
+      </Link>
+      <Link to="/create">
+        <HeaderButtons>Create Todo</HeaderButtons>
+      </Link>
+    </div>
+  </HeaderStyle>
+);
 
 export default Header;

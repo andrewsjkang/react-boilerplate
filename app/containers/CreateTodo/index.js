@@ -9,6 +9,7 @@ import injectReducer from 'utils/injectReducer';
 import { makeSelectCreateTask } from './selectors';
 import { setTaskInput, resetTaskInput } from './actions';
 import reducer from './reducer';
+import CreateStyle from './style/CreateStyle';
 
 class CreateTodo extends React.PureComponent {
   constructor(props) {
@@ -19,11 +20,14 @@ class CreateTodo extends React.PureComponent {
 
   handleSubmit(event) {
     event.preventDefault();
-    const data = {
-      task: this.props.task,
-    };
-    this.postTodo(data);
-    this.props.handleTaskReset();
+
+    if (this.props.task !== '') {
+      const data = {
+        task: this.props.task,
+      };
+      this.postTodo(data);
+      this.props.handleTaskReset();
+    }
   }
 
   postTodo(data) {
@@ -34,7 +38,13 @@ class CreateTodo extends React.PureComponent {
         'Content-Type': 'application/json',
       },
     })
-      .then(() => {
+      .then(response => {
+        if (response.status !== 201) {
+          const error = new Error(response.statusText);
+          error.response = response;
+          throw error;
+        }
+
         this.props.history.push('/');
       })
       /* eslint-disable no-console */
@@ -43,9 +53,8 @@ class CreateTodo extends React.PureComponent {
 
   render() {
     return (
-      <div>
+      <CreateStyle>
         <h1>Create Todo</h1>
-        <div>{this.props.task}</div>
         <form onSubmit={this.handleSubmit}>
           <input
             onChange={this.props.handleTaskInputChange}
@@ -55,7 +64,7 @@ class CreateTodo extends React.PureComponent {
           />
           <button type="submit">Submit</button>
         </form>
-      </div>
+      </CreateStyle>
     );
   }
 }

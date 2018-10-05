@@ -8,4 +8,7 @@ const makeSelectTodoList = () =>
     todolistState.get('todos').toJS(),
   );
 
-export { selectTodoList, makeSelectTodoList };
+const makeSelectLoading = () =>
+  createSelector(selectTodoList, todolistState => todolistState.get('loading'));
+
+export { selectTodoList, makeSelectTodoList, makeSelectLoading };

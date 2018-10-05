@@ -1,1 +1,2 @@
-export const UPDATE_TODO_LIST = 'boilerplate/TodoList/UPDATE_TODO_LIST';
+export const LOAD_TODOS = 'boilerplate/TodoList/LOAD_TODOS';
+export const LOAD_TODOS_SUCCESS = 'boilerplate/TodoList/LOAD_TODOS_SUCCESS';

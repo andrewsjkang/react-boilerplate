@@ -14,7 +14,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-// import HomePage from 'containers/HomePage/Loadable';
 import Header from 'containers/Header';
 import TodoList from 'containers/TodoList';
 import CreateTodo from 'containers/CreateTodo';
