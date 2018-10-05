@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { string, func } from 'prop-types';
 import { createStructuredSelector } from 'reselect';
+import 'whatwg-fetch';
+
 import injectReducer from 'utils/injectReducer';
 import { makeSelectCreateTask } from './selectors';
 import { setTaskInput, resetTaskInput } from './actions';
@@ -17,8 +19,25 @@ class CreateTodo extends React.PureComponent {
   /* eslint-disable no-console */
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.props.task);
+    const data = {
+      task: this.props.task,
+    };
+    this.postTodo(data);
     this.props.handleTaskReset();
+  }
+
+  postTodo(data) {
+    fetch('/todolist', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => {
+        console.log(response.text());
+      })
+      .catch(error => console.error(error));
   }
 
   render() {

@@ -1,9 +1,11 @@
 /* eslint consistent-return:0 */
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const logger = require('./logger');
 
 // const preload = require('./data.json');
+const todolist = require('./endpoints/todolist');
 const argv = require('./argv');
 const port = require('./port');
 const setup = require('./middlewares/frontendMiddleware');
@@ -17,6 +19,11 @@ const app = express();
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
+
+// REQ body parser Middleware
+app.use(bodyParser.json());
+
+app.use('/todolist', todolist);
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {
@@ -47,10 +54,4 @@ app.listen(port, host, async err => {
   } else {
     logger.appStarted(port, prettyHost);
   }
-});
-
-/* eslint-disable no-console */
-app.get('/todolist', (req, res) => {
-  console.log('connection reached');
-  res.status(200).json('hello');
 });

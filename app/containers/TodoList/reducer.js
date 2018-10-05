@@ -1,24 +1,16 @@
 // Entries reducer
 
 import { fromJS } from 'immutable';
+import { UPDATE_TODO_LIST } from './constants';
 
 export const todoListInitialState = fromJS({
-  todos: [
-    {
-      id: 1,
-      date: '2018-09-28',
-      task: 'first message',
-    },
-    {
-      id: 2,
-      date: '2018-09-29',
-      task: 'second message',
-    },
-  ],
+  todos: [],
 });
 
 function todoListReducer(state = todoListInitialState, action) {
   switch (action.type) {
+    case UPDATE_TODO_LIST:
+      return state.set('todos', fromJS(action.payload));
     default:
       return state;
   }

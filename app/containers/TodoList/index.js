@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { array } from 'prop-types';
+import { array, func } from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import 'whatwg-fetch';
 
 import injectReducer from 'utils/injectReducer';
 import { makeSelectTodoList } from './selectors';
+import { updateTodoList } from './actions';
 import reducer from './reducer';
 import TodoItem from '../../components/TodoItem/index';
 
@@ -21,16 +22,14 @@ class TodoList extends React.PureComponent {
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then(
-      response => {
-        const data = response.text();
-        /* eslint-disable no-console */
-        console.log(data);
-      },
-      error => {
+    })
+      .then(res => res.json())
+      .then(response => {
+        this.props.updateTodoState(response);
+      })
+      .catch(error => {
         console.error(error);
-      },
-    );
+      });
   }
 
   render() {
@@ -45,13 +44,23 @@ class TodoList extends React.PureComponent {
 
 TodoList.propTypes = {
   todos: array,
+  updateTodoState: func,
 };
 
 const mapStateToProps = createStructuredSelector({
   todos: makeSelectTodoList(),
 });
 
-const withConnect = connect(mapStateToProps);
+const mapDispatchToProps = dispatch => ({
+  updateTodoState(newList) {
+    dispatch(updateTodoList(newList));
+  },
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
 const withReducer = injectReducer({ key: 'todolist', reducer });
 
 export default compose(
