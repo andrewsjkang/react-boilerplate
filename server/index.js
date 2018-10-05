@@ -3,6 +3,7 @@
 const express = require('express');
 const logger = require('./logger');
 
+// const preload = require('./data.json');
 const argv = require('./argv');
 const port = require('./port');
 const setup = require('./middlewares/frontendMiddleware');
@@ -46,4 +47,10 @@ app.listen(port, host, async err => {
   } else {
     logger.appStarted(port, prettyHost);
   }
+});
+
+/* eslint-disable no-console */
+app.get('/todolist', (req, res) => {
+  console.log('connection reached');
+  res.status(200).json('hello');
 });

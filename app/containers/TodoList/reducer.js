@@ -2,9 +2,6 @@
 
 import { fromJS } from 'immutable';
 
-// Preload data
-// import preload from '../../data.json';
-
 export const todoListInitialState = fromJS({
   todos: [
     {

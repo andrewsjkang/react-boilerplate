@@ -1,28 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { string, Function } from 'prop-types';
+import { string, func } from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import injectReducer from 'utils/injectReducer';
-import { makeSelectTodoList } from './selectors';
+import { makeSelectCreateTask } from './selectors';
 import { setTaskInput, resetTaskInput } from './actions';
 import reducer from './reducer';
-
-// const CreateTodo = props => (
-//   <div>
-//     <h1>Create Todo</h1>
-//     <div>{props.task}</div>
-//     <form>
-//       <input
-//         onChange={props.handleTaskInputChange}
-//         value={props.task}
-//         type="text"
-//         placeholder="Task"
-//       />
-//       <button type="submit">Submit</button>
-//     </form>
-//   </div>
-// );
 
 class CreateTodo extends React.PureComponent {
   constructor(props) {
@@ -58,12 +42,12 @@ class CreateTodo extends React.PureComponent {
 
 CreateTodo.propTypes = {
   task: string,
-  handleTaskInputChange: Function,
-  handleTaskReset: Function,
+  handleTaskInputChange: func,
+  handleTaskReset: func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  task: makeSelectTodoList(),
+  task: makeSelectCreateTask(),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -85,5 +69,3 @@ export default compose(
   withReducer,
   withConnect,
 )(CreateTodo);
-
-// export default CreateTodo;
