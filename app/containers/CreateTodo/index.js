@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { string, func } from 'prop-types';
+import { string, func, object } from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import 'whatwg-fetch';
 
@@ -16,7 +16,7 @@ class CreateTodo extends React.PureComponent {
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  /* eslint-disable no-console */
+
   handleSubmit(event) {
     event.preventDefault();
     const data = {
@@ -34,9 +34,10 @@ class CreateTodo extends React.PureComponent {
         'Content-Type': 'application/json',
       },
     })
-      .then(response => {
-        console.log(response.text());
+      .then(() => {
+        this.props.history.push('/');
       })
+      /* eslint-disable no-console */
       .catch(error => console.error(error));
   }
 
@@ -63,6 +64,7 @@ CreateTodo.propTypes = {
   task: string,
   handleTaskInputChange: func,
   handleTaskReset: func,
+  history: object,
 };
 
 const mapStateToProps = createStructuredSelector({
